@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body {
+            width: 380px;
+            min-height: 300px;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            font-size: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .container {
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+        
+        .status-bar {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            margin-bottom: 15px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .status-connected {
+            background: rgba(76, 175, 80, 0.3);
+            border: 1px solid rgba(76, 175, 80, 0.5);
+        }
+        
+        .status-disconnected {
+            background: rgba(244, 67, 54, 0.3);
+            border: 1px solid rgba(244, 67, 54, 0.5);
+        }
+        
+        .video-info {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .video-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .video-meta {
+            font-size: 11px;
+            opacity: 0.8;
+            margin-bottom: 4px;
+        }
+        
+        .quality-section {
+            margin-bottom: 15px;
+        }
+        
+        .section-title {
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-size: 13px;
+        }
+        
+        .quality-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        
+        .quality-option {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid transparent;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+        
+        .quality-option:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+        
+        .quality-option.selected {
+            border-color: #ffd700;
+            background: rgba(255, 215, 0, 0.2);
+        }
+        
+        .quality-label {
+            font-weight: 500;
+            font-size: 12px;
+            margin-bottom: 2px;
+        }
+        
+        .quality-type {
+            font-size: 10px;
+            opacity: 0.8;
+        }
+        
+        .download-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+        }
+        
+        .download-btn:disabled {
+            background: rgba(255, 255, 255, 0.2);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .progress-section {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.2);
+            height: 6px;
+            border-radius: 3px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+        
+        .progress-text {
+            font-size: 12px;
+            text-align: center;
+            margin-top: 5px;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #ffd700;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        .error {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid rgba(244, 67, 54, 0.5);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: center;
+            font-size: 12px;
+        }
+        
+        .no-video {
+            text-align: center;
+            padding: 40px 20px;
+            opacity: 0.8;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🚀 Video İndirici Pro</div>
+            <div class="subtitle">Python Backend ile güçlendirildi</div>
+        </div>
+        
+        <div id="status-bar" class="status-bar">
+            Backend bağlantısı kontrol ediliyor...
+        </div>
+        
+        <div id="loading" class="loading">
+            <div class="loading-spinner"></div>
+            <div>Video bilgileri yükleniyor...</div>
+        </div>
+        
+        <div id="error" class="error" style="display: none;"></div>
+        
+        <div id="no-video" class="no-video" style="display: none;">
+            <div style="font-size: 48px; margin-bottom: 15px;">❌</div>
+            <div style="font-size: 16px; margin-bottom: 8px;">Video bulunamadı</div>
+            <div style="font-size: 12px; opacity: 0.7;">
+                YouTube veya Instagram'da bir video açın
+            </div>
+        </div>
+        
+        <div id="main-content" style="display: none;">
+            <div class="video-info">
+                <div class="video-title" id="video-title"></div>
+                <div class="video-meta">
+                    <div id="video-uploader"></div>
+                    <div id="video-duration"></div>
+                </div>
+            </div>
+            
+            <div class="quality-section">
+                <div class="section-title">Kalite ve Format Seçin:</div>
+                <div class="quality-grid" id="quality-options"></div>
+            </div>
+            
+            <div class="download-section">
+                <button id="download-btn" class="download-btn" disabled>
+                    <span>📥</span>
+                    <span>Kalite Seçin</span>
+                </button>
+            </div>
+            
+            <div id="progress-section" class="progress-section" style="display: none;">
+                <div id="progress-status">İndirme başlatılıyor...</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-text" id="progress-text">0%</div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="popup.js"></script>
+</body>
+</html>
